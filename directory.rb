@@ -18,9 +18,16 @@ def input_students
     puts "What is your experience, high or low?" 
     exp_level = gets.chomp
     #add the student hash to the array
-    students << {name: name, cohort: :november, crime: my_crime, experience_level: exp_level }
+    puts "What month is your cohort?" 
+    cohort_month = gets.chomp
+    #add the student hash to the array
+    students << {name: name, cohort: cohort_month, crime: my_crime, experience_level: exp_level }
     
-    puts "Now we have #{students.count} students"
+    if students.count <= 1
+      puts "Now we have #{students.count} student"
+    else puts "Now we have #{students.count} students"
+    end
+
     #get another name from the user
     name = gets.chomp
   end
@@ -34,18 +41,22 @@ def print_header
 end
 
 def print(students)
-  puts "Only display name if starts with letter.."
-  letter = gets.chomp 
-  students.each_with_index do |student, index|
-  #only list names beginning with first letter....
-    if student[:name].chars.first == letter
-      puts " #{index}: #{student[:name]} (#{student[:cohort]} cohort) and my crime is #{student[:crime]} at a #{student[:experience_level]} level of experience".center(100)
+  cohorts = students.map do |student|
+      student[:cohort]
     end
-  end
+    cohorts.uniq.each do |cohort|
+      puts "#{cohort} cohort".capitalize.ljust(5)
+        students.each do |student|
+          puts "#{student[:name]} and the mischief is #{student[:crime]}" if student[:cohort] == cohort
+        end
+    end
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students"
+  if names.count <= 1
+  puts "Overall, we have #{names.count} great student"
+  else puts "Overall, we have #{names.count} great students"
+  end
 end
 #nothing happens until we call methods
 
